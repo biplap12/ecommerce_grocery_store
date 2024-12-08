@@ -1,0 +1,22 @@
+# Ignore all .log files
+*.log
+
+# Ignore all files in the node_modules folder
+node_modules/
+
+# Ignore all .env files
+
+
+# Ignore all files with a .DS_Store extension (macOS-specific)
+.DS_Store
+
+# Ignore build directories
+/build/
+/dist/
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore all .txt files in the root directory
+*.txt
