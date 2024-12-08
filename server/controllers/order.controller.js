@@ -3,6 +3,8 @@ import CartProductModel from "../models/cartproduct.model.js";
 import OrderModel from "../models/order.model.js";
 import UserModel from "../models/user.model.js";
 import mongoose from "mongoose";
+import axios from "axios"
+
 
  export async function CashOnDeliveryOrderController(request,response){
     try {
@@ -64,7 +66,7 @@ export async function paymentController(request,response){
         const line_items  = list_items.map(item =>{
             return{
                price_data : {
-                    currency : 'inr',
+                    currency : 'npr',
                     product_data : {
                         name : item.productId.name,
                         images : item.productId.image,
@@ -207,3 +209,54 @@ export async function getOrderDetailsController(request,response){
         })
     }
 }
+
+
+
+// export const khaltiPaymentControllers = async (request, response) => {
+//   try {
+//     // Extract the payload from the request body
+//     const payload = request.body;
+//     // console.log("userId",userId);
+// //         // // console.log("paymentId",paymentId);
+// //         // console.log("list_items",list_items);
+// //         // console.log("totalAmt",totalAmt);
+// //         // console.log("addressId",addressId);
+// //         // console.log("subTotalAmt",subTotalAmt); 
+
+//     // Log the incoming payload for debugging
+//     console.log("Incoming Payload:", JSON.stringify(payload, null, 2));
+
+//     // Make a POST request to Khalti's API
+//     const khaltiResponse = await axios.post(
+//       "https://a.khalti.com/api/v2/epayment/initiate/", // Correct Khalti API endpoint
+//       payload,
+//       {
+//         headers: {
+//           Authorization: "Key live_secret_key_a722c3524d1e4fa593c3081fa3ca72cc", // Use your secret key
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+
+//     // Log and return the response from Khalti
+//     console.log("Khalti Response:", khaltiResponse.data);
+//     response.json({
+//       success: true,
+//       data: khaltiResponse.data,
+//     });
+//   } catch (error) {
+//     // Handle errors and log them for debugging
+//     console.error("Error from Khalti:", error.response?.data || error.message);
+
+//     return response.status(500).json({
+//       message: error.response?.data?.detail || error.message || "Internal Server Error",
+//       error: true,
+//       success: false,
+//     });
+//   }
+// };
+
+
+
+
+

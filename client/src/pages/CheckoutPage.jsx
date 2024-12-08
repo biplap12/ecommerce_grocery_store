@@ -9,6 +9,7 @@ import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { loadStripe } from '@stripe/stripe-js'
+import OnlinePaymentOption from '../components/OnlinePaymentOption'
 
 const CheckoutPage = () => {
   const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem,fetchOrder } = useGlobalContext()
@@ -17,6 +18,7 @@ const CheckoutPage = () => {
   const [selectAddress, setSelectAddress] = useState(0)
   const cartItemsList = useSelector(state => state.cartItem.cart)
   const navigate = useNavigate()
+  const [ openOnlinePaymentOptionModel, setOpenOnlinePaymentOptionModel ] = useState(false)
 
   const handleCashOnDelivery = async() => {
       try {
@@ -52,36 +54,43 @@ const CheckoutPage = () => {
       }
   }
 
-  const handleOnlinePayment = async()=>{
-    try {
-        toast.loading("Loading...")
-        const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
-        const stripePromise = await loadStripe(stripePublicKey)
+  // const handleOnlinePayment = async()=>{
+  //   try {
+  //       toast.loading("Loading...")
+  //       const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
+  //       const stripePromise = await loadStripe(stripePublicKey)
        
-        const response = await Axios({
-            ...SummaryApi.payment_url,
-            data : {
-              list_items : cartItemsList,
-              addressId : addressList[selectAddress]?._id,
-              subTotalAmt : totalPrice,
-              totalAmt :  totalPrice,
-            }
-        })
+  //       const response = await Axios({
+  //           ...SummaryApi.payment_url,
+  //           data : {
+  //             list_items : cartItemsList,
+  //             addressId : addressList[selectAddress]?._id,
+  //             subTotalAmt : totalPrice,
+  //             totalAmt :  totalPrice,
+  //           }
+  //       })
 
-        const { data : responseData } = response
+  //       const { data : responseData } = response
 
-        stripePromise.redirectToCheckout({ sessionId : responseData.id })
+  //       stripePromise.redirectToCheckout({ sessionId : responseData.id })
         
-        if(fetchCartItem){
-          fetchCartItem()
-        }
-        if(fetchOrder){
-          fetchOrder()
-        }
-    } catch (error) {
-        AxiosToastError(error)
-    }
-  }
+  //       if(fetchCartItem){
+  //         fetchCartItem()
+  //       }
+  //       if(fetchOrder){
+  //         fetchOrder()
+  //       }
+  //   } catch (error) {
+  //       AxiosToastError(error)
+  //   }
+  // }
+
+  // console.log("notDiscountTotalPrice",notDiscountTotalPrice) ;
+
+  // console.log(cartItemsList)
+  
+  
+
   return (
     <section className='bg-blue-50'>
       <div className='container mx-auto p-4 flex flex-col lg:flex-row w-full gap-5 justify-between'>
@@ -92,7 +101,7 @@ const CheckoutPage = () => {
             {
               addressList.map((address, index) => {
                 return (
-                  <label htmlFor={"address" + index} className={!address.status && "hidden"}>
+                  <label htmlFor={"address" + index} key={index+"address"} className={!address.status && "hidden"}>
                     <div className='border rounded p-3 flex gap-3 hover:bg-blue-50'>
                       <div>
                         <input id={"address" + index} type='radio' value={index} onChange={(e) => setSelectAddress(e.target.value)} name='address' />
@@ -141,7 +150,11 @@ const CheckoutPage = () => {
             </div>
           </div>
           <div className='w-full flex flex-col gap-4'>
-            <button className='py-2 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-semibold' onClick={handleOnlinePayment}>Online Payment</button>
+            {/* <button className='py-2 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-semibold' onClick={handleOnlinePayment}>Online Payment</button> */}
+
+              {/* online payment model , option choose  */}
+              <button className='py-2 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-semibold' onClick={()=>setOpenOnlinePaymentOptionModel(true)}>Online Payment</button>
+
 
             <button className='py-2 px-4 border-2 border-green-600 font-semibold text-green-600 hover:bg-green-600 hover:text-white' onClick={handleCashOnDelivery}>Cash on Delivery</button>
           </div>
@@ -152,6 +165,21 @@ const CheckoutPage = () => {
       {
         openAddress && (
           <AddAddress close={() => setOpenAddress(false)} />
+        )
+      }
+      {
+        openOnlinePaymentOptionModel && (
+      <OnlinePaymentOption 
+        close={() => setOpenOnlinePaymentOptionModel(false)} 
+        handleCashOnDelivery={handleCashOnDelivery}
+          data={{
+          notDiscountTotalPrice,
+          totalPrice,
+          totalQty,
+          list_items : cartItemsList,
+          addressId : addressList[selectAddress]?._id,
+                }} 
+      />
         )
       }
     </section>

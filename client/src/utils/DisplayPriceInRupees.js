@@ -1,6 +1,10 @@
-export const DisplayPriceInRupees = (price)=>{
-    return new Intl.NumberFormat('en-IN',{
-        style : 'currency',
-        currency : 'INR'
-    }).format(price)
-}
+
+
+export const DisplayPriceInRupees = (price) => {
+    if (isNaN(price) || price < 0) {
+        return 'Invalid price'; 
+    }
+
+    // Format the price with "रु" symbol
+    return `रु.${new Intl.NumberFormat('en-NP').format(price)}`;
+};
