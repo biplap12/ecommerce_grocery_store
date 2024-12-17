@@ -1,13 +1,14 @@
-# React Receipt Page
+# eCommerce Grocery Store
 
-This is a simple React application that displays a receipt page for an online store. The page includes customer information, order details, a table listing items purchased, and a print button to allow users to print the receipt.
+This is an eCommerce platform for a grocery store built with React. The application allows users to view and purchase grocery items online. It includes features such as a product listing, a shopping cart, and a responsive design suitable for both desktop and mobile devices.
 
 ## Features
 
-- Displays customer and order information.
-- Shows a list of purchased items with quantities, prices, and total amounts.
-- Allows users to print the receipt directly from the page.
-- Responsive design, suitable for both desktop and mobile devices.
+- Displays a list of grocery items with images, prices, and descriptions.
+- Users can add items to their shopping cart and view cart details.
+- Responsive design that adjusts to different screen sizes.
+- Simple checkout process that displays order summary and total amount.
+- Option to print the receipt after order completion.
   
 ## Prerequisites
 
@@ -21,6 +22,7 @@ Before running the project, ensure that you have the following installed on your
 ### 1. Clone the Repository
 
 Clone the repository to your local machine using the following command:
+
 
 ```bash
 git clone https://github.com/biplap12/ecommerce_grocery_store.git
