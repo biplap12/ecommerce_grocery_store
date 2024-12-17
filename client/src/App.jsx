@@ -37,7 +37,7 @@ function App() {
            dispatch(setAllCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
         }
     } catch (error) {
-        
+        console.error(error)
     }finally{
       dispatch(setLoadingCategory(false))
     }
@@ -54,8 +54,7 @@ function App() {
            dispatch(setAllSubCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
         }
     } catch (error) {
-        
-    }finally{
+        console.error(error)
     }
   }
 
